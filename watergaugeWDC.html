@@ -18,35 +18,42 @@
 </head>
 
 <body>
-<div class="col-md-12 well ">
+<div class="col-md-12 well well-sm">
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
   <div class="btn-group" role="group">
-    <button type="button" class="btn btn-primary">Watergaugestations</button>
+    <button type="button" class="btn btn-primary" id="MD_but">Watergaugestations</button>
   </div>
   <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default">Current measurements</button>
+    <button type="button" class="btn btn-default" id="CM_but">Current measurements</button>
   </div>
   <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default">Historical data</button>
+    <button type="button" class="btn btn-default" id="HD_but">Historical data</button>
   </div>
 </div>
 </div>
 
+<script>
 
 
 
-<form id="myForm">
+</script>
+
+
+
+<form id="MD" >
 	<div class="container container-table">
 		<div class="row vertical-center-row">
 			<div class="col-md-12 well well-sm">
-			<div class="form-group">
-				<p>Filter watergaugestations by <i id='Nwaters'></i> water:</p>
-				<select class="form-control " id="sel1">
-					<option selected value='666'><b>All waters</b></option>
-				</select>
-			</div>
+				<div class="form-group">
+					<p>HD: Filter watergaugestations by <i id='Nwaters'></i> water:</p>
+					<select class="form-control " id="water_list">
+						<option value='666'><b>All waters</b></option>
+					</select>
+				</div>
 			</div>
 			<p>Select one water to enable <b>spatial search</b> for watergauge stations</p>
+			<input type="hidden" id="FormID" name="FormID" value="MD">
+
 			<div class="col-md-12 well well-sm">
 				<label class="form-check-label" for="inlineRadio1">Off</label>
 				<input class="form-check-input inlineRadioOptions" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked >
@@ -54,42 +61,103 @@
 				<label class="form-check-label" for="inlineRadio2">On</label>
 			
 
-			<div class="form-row col-md-12 well well-sm" >
-			<div class="form-group col-md-8">
-				<!-- <label for="customRange1" class="form-label"> -->
-				<p>Set gravity point by <b>distance</b> from source of the selected water: <i id='distance_km'>50</i> km</p>
-				<!-- </label> -->
-				<input type="range" class="form-range col-md-3 inputDisabled" value="50" min="0" max="3000" step="50" id="customRange1" oninput="document.getElementById('distance_km').innerHTML = this.value" disabled>
+				<div class="form-row col-md-12 well well-sm" >
+					<div class="form-group col-md-8">
+						<!-- <label for="customRange1" class="form-label"> -->
+						<p>Set gravity point by <b>distance</b> from source of the selected water: <i id='distance_km'>50</i> km</p>
+						<!-- </label> -->
+						<input type="range" class="form-range col-md-3 inputDisabled" value="50" min="0" max="3000" step="50" id="customRange1" oninput="document.getElementById('distance_km').innerHTML = this.value" disabled>
+						
+					</div>
+					<div class="form-group col-md-4">
+						<p>Set <b>radius</b> around selected point: <i id='radius_km'>50</i> km</p>
+						<input type="range" class="form-range inputDisabled" value="10" min="0" max="100" step="5" id="customRange2" oninput="document.getElementById('radius_km').innerHTML = this.value" disabled>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container container-table">
+				<div class="row vertical-center-row">
+					<div class="text-center col-md-8 col-md-offset-2">
+						<button type="submit" id="submitButton" class="btn btn-primary" >Get data!</button>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</form>
+
+<form id="CM">
+	<div class="container container-table">
+		<div class="row vertical-center-row">
+			<div class="col-md-12 well well-sm">
+				<div class="form-group">
+					<p>CM: Filter watergaugestations by <i id='Nwaters_CM'></i> water:</p>
+					<select class="form-control " id="water_list_CM">
+						<option value='666'><b>All waters</b></option>
+					</select>
+				</div>				
+			</div>
+			<p>CM: Select <b>TimeSeries data</b> for watergauge stations</p>
+			<input type="hidden" id="FormID_CM" name="FormID" value="CM">
+
+			<div class="col-md-12 well well-sm">
+				<label class="form-check-label" for="inlineRadio1_TM">Off</label>
+					<input class="form-check-input inlineRadioOptions" type="radio" name="inlineRadioOptions" id="inlineRadio1_TM" value="option1" checked >
+					<input class="form-check-input inlineRadioOptions" type="radio" name="inlineRadioOptions" id="inlineRadio2_TM" value="option2">
+				<label class="form-check-label" for="inlineRadio2_TM">On</label>
+				
+
+			
+
+				<div class="form-row col-md-12 well well-sm" >
+				<select class="custom-select" id="Multiple_select_TM" size="5" multiple>
+					  <option selected>All Timeseries measures</option>
+					  <option value="CL">CHLORID</option>
+					  <option value="DFH">DURCHFAHRTSHÖHE</option>
+					  <option value="GRU">GRUNDWASSER ROHDATEN</option>
+					  <option value="HL">LUFTFEUCHTE</option>
+					  <option value="LF">ELEKTRISCHE LEITFÄHIGKEIT</option>
+					  <option value="LT">LUFTTEMPERATUR</option>
+
+				</select>
+				</div>
+			</div>
+			
+			<div class="container container-table">
+				<div class="row vertical-center-row">
+					<div class="text-center col-md-8 col-md-offset-2">
+						<button type="submit" id="submitButton_CM" class="btn btn-primary" >Get data!</button>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</form>
+
+<form id="HD">
+	<div class="container container-table">
+		<div class="row vertical-center-row">
+			<div class="col-md-12 well well-sm">
 				
 			</div>
-			<div class="form-group col-md-4">
-				<p>Set <b>radius</b> around selected point: <i id='radius_km'>50</i> km</p>
-				<input type="range" class="form-range inputDisabled" value="10" min="0" max="100" step="5" id="customRange2" oninput="document.getElementById('radius_km').innerHTML = this.value" disabled>
-			</div>
-			</div>
-			</div>
-			    <div class="container container-table">
-        <div class="row vertical-center-row">
-            <div class="text-center col-md-8 col-md-offset-2">
-			<button type="submit" id="submitButton" class="btn btn-primary" >Get data!</button>
-		            </div>
-        </div>
-    </div>	
+			<p>HD:Select one water to enable <b>spatial search</b> for watergauge stations</p>
+			<input type="hidden" id="FormID" name="FormID" value="HD">
+			
+			<div class="container container-table">
+				<div class="row vertical-center-row">
+					<div class="text-center col-md-8 col-md-offset-2">
+						<button type="submit" id="submitButton_CM" class="btn btn-primary" >Get data!</button>
+					</div>
+				</div>
+			</div>	
 		</div>
 	</div>
 </form>
 				
-<script>
 
-</script>
 
-    <div class="container container-table">
-        <div class="row vertical-center-row">
-            <div class="text-center col-md-8 col-md-offset-2">
-                <button type="button" id="submitButton" class="btn btn-success" >Get watergauge data!</button>
-            </div>
-        </div>
-    </div>
+
 	
 </body>
 
