@@ -3,7 +3,7 @@
 <head>
     <title>Wasserpegel REST-API</title>
     <meta http-equiv="Cache-Control" content="no-store" />
-
+	
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
@@ -12,9 +12,11 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
+
     <script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js" type="text/javascript"></script>
     <script src="watergauge.js" type="text/javascript"></script>
 	<script src="water.js" type="text/javascript"></script>
+	<script src="watergauge.css" rel="stylesheet"></script>
 </head>
 
 <body>
@@ -39,7 +41,7 @@
 </script>
 
 
-
+<!-- First form to load only watergaugestations -->
 <form id="MD" >
 	<div class="container container-table">
 		<div class="row vertical-center-row">
@@ -87,6 +89,8 @@
 	</div>
 </form>
 
+
+<!-- First form to load watergaugestations, Timeseries/Current Measurement and Characteristics -->
 <form id="CM">
 	<div class="container container-table">
 		<div class="row vertical-center-row">
@@ -98,29 +102,69 @@
 					</select>
 				</div>				
 			</div>
-			<p>CM: Select <b>TimeSeries data</b> for watergauge stations</p>
+			<p>CM: Select specific<b>TimeSeries data</b> for watergauge stations</p>
 			<input type="hidden" id="FormID_CM" name="FormID" value="CM">
 
 			<div class="col-md-12 well well-sm">
-				<label class="form-check-label" for="inlineRadio1_TM">Off</label>
-					<input class="form-check-input inlineRadioOptions" type="radio" name="inlineRadioOptions" id="inlineRadio1_TM" value="option1" checked >
-					<input class="form-check-input inlineRadioOptions" type="radio" name="inlineRadioOptions" id="inlineRadio2_TM" value="option2">
-				<label class="form-check-label" for="inlineRadio2_TM">On</label>
-				
+			  <button type="button" class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#Multiple_TM">Show/Hide</button>
+				<div class="container" >
 
-			
+				<div class="form-row collapse" id="Multiple_TM">
 
-				<div class="form-row col-md-12 well well-sm" >
-				<select class="custom-select" id="Multiple_select_TM" size="5" multiple>
-					  <option selected>All Timeseries measures</option>
-					  <option value="CL">CHLORID</option>
-					  <option value="DFH">DURCHFAHRTSHÖHE</option>
-					  <option value="GRU">GRUNDWASSER ROHDATEN</option>
-					  <option value="HL">LUFTFEUCHTE</option>
-					  <option value="LF">ELEKTRISCHE LEITFÄHIGKEIT</option>
-					  <option value="LT">LUFTTEMPERATUR</option>
+					<div class="form-group col-sm-4 col-md-4 well well-sm">
+						<div class="checkbox ">
+							<label class="lb-sm"><input type="checkbox" value="" name='mycheck' id="opt_1_CM" >WASSERTEMPERATUR</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_2_CM">FLIESSGESCHWINDIGKEIT</label>
+						</div>
+						<div class="checkbox ">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_3_CM">GRUNDWASSER</label>
+						</div>
+						<div class="checkbox ">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_4_CM">ABFLUSS</label>
+						</div>
+						<div class="checkbox ">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_5_CM">TRÜBUNG</label>
+						</div>
+					</div>
+					<div class="form-group col-sm-4 col-md-4 well well-sm">
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_6_CM">WASSERSTAND</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_7_CM">DURCHFAHRTSHÖHE</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_8_CM">WINDGESCHWINDIGKEIT</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_9_CM">WINDRICHTUNG</label>
+						</div>
+						<div class="checkbox ">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_10_CM">CHLORID</label>
+						</div>
+					</div>
+					<div class="form-group col-sm-4 col-md-4 well well-sm">
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_11_CM">MAXIMALEWELLENHÖHE</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_12_CM">NIEDERSCHLAG</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_13_CM">LUFTFEUCHTE</label>
+						</div>
+						<div class="checkbox ">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_14_CM">LUFTTEMPERATUR</label>
+						</div>
+						<div class="checkbox ">
+							<label><input type="checkbox" value="" name='mycheck' id="opt_15_CM">SALINITÄT</label>
+						</div>
+					</div>
+					
 
-				</select>
+				</div>
 				</div>
 			</div>
 			
@@ -131,6 +175,7 @@
 					</div>
 				</div>
 			</div>	
+			
 		</div>
 	</div>
 </form>
@@ -139,15 +184,55 @@
 	<div class="container container-table">
 		<div class="row vertical-center-row">
 			<div class="col-md-12 well well-sm">
-				
+				<div class="form-group">
+					<p>HD: First select a water:</p>
+					<select class="form-control " id="water_list_HD">
+						<option value='000'><b>Select one water</b></option>						
+					</select>
+				</div>
 			</div>
-			<p>HD:Select one water to enable <b>spatial search</b> for watergauge stations</p>
-			<input type="hidden" id="FormID" name="FormID" value="HD">
+			<div class="col-md-12 well well-sm">
+				<div class="form-group">
+					<p>CM: Select a watergauge station:</p>
+					<select class="form-control " id="station_list_HD">
+						
+					</select>
+				</div>
+			</div>
+
+			<p>To retrieve historical water level data, select first a water than a station and finally specify time dimension.</p>
+			<input type="hidden" id="FormID" name="FormID" value="MD">
+
+
+			
+
+				<div class="form-row col-md-12 well well-sm" >
+				<div class="row">
+					<div class="col-xs-6 col-sm-5 col-md-4">
+					<div class="form-group">
+						<p>Set amount of <b>days</b> to retrieve: <i id='amount_days'>1</i> day</p>
+						<input type="range" class="form-range inputDisabled_HD" value="1" min="1" max="30" step="1" id="daysRange" oninput="document.getElementById('amount_days').innerHTML = this.value" disabled>
+					</div>
+					</div>
+					<div class="col-xs-12 col-sm-7 col-md-8" >
+						<div class="form-inline ">
+							<label for="start-date-one" class="text-center">Start Date</label>
+							<span>&mdash;<span>
+							<label for="end-date-one">End Date</label>
+						</div>
+						<div class="form-inline">
+							<input type="text" class="form-control" id="start_date_HD" value="" disabled>
+							<input type="text" class="form-control" id="end_date_HD" value="" disabled>
+						</div>
+					</div>
+				</div>	
+				</div>
+			
 			
 			<div class="container container-table">
 				<div class="row vertical-center-row">
 					<div class="text-center col-md-8 col-md-offset-2">
-						<button type="submit" id="submitButton_CM" class="btn btn-primary" >Get data!</button>
+						<button type="submit" id="submitButton_HD" class="btn btn-primary" disabled>Get data!</button>
 					</div>
 				</div>
 			</div>	

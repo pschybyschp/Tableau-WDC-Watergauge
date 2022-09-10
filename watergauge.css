@@ -1,0 +1,22 @@
+.lb-sm {
+  font-size: 6px;
+}
+
+.lb-md {
+  font-size: 16px;
+}
+
+.lb-lg {
+  font-size: 20px;
+}
+
+.well {
+    min-height: 15px;
+    padding: 19px;
+    margin-bottom: 10px;
+}
+
+.checkbox, .radio {
+
+    margin-bottom: 5px;
+}

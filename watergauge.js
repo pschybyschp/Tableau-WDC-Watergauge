@@ -6,6 +6,7 @@
 
     // Define the schema, Structure definition includes columns, alias and data type
     myConnector.getSchema = function(schemaCallback) {
+
 	
 var waterObj = JSON.parse(tableau.connectionData);
 
@@ -67,7 +68,6 @@ if (waterObj.formid==='MD'){
 	
 } else if (waterObj.formid==='CM'){
 		console.log('CM-table');
-
 	
 		// Define column by column for watergaugestations
         var cols_MD = [{
@@ -241,7 +241,7 @@ if (waterObj.formid==='MD'){
  
 
 
- // Download the masterdata data (Watergauge in Germany)
+ // Naviagte to the correct URI in order to download the desired data 
     myConnector.getData = function(table, doneCallback) {
 		
         var waterObj = JSON.parse(tableau.connectionData),
@@ -251,17 +251,31 @@ if (waterObj.formid==='MD'){
 		console.log(apiCall);
 		console.log(waterObj.formid);
 		console.log(waterObj.water);
+		console.log(waterObj.N_measure);
+		
 
-
-		if (waterObj.formid==='CM' && waterObj.water == '666'){
+	// Navigation for CM
+		if (waterObj.formid==='CM' && waterObj.water == '666' && waterObj.N_measure==14){
 			apiCall = 'https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true'
-			console.log('switch CM');
+			console.log('CM666 '+apiCall);
 			}
-		else if (waterObj.formid==='CM' && waterObj.water !== '666'){
-			dateString = "waters=" + waterObj.water + "&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
-            apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString;
-			console.log('switch CM water');
+		else if (waterObj.formid==='CM' && waterObj.water == '666' && waterObj.N_measure<14){
+			dateString_CM = "timeseries="+waterObj.s_code+"&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
+            apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CM;
+			console.log('CM666<14 '+apiCall);
+			}	
+		else if (waterObj.formid==='CM' && waterObj.water !== '666' && waterObj.N_measure==14){
+			dateString_CM = "waters=" + waterObj.water + "&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
+            apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CM;
+			console.log('CM!666 '+apiCall);
+			}			
+		else if (waterObj.formid==='CM' && waterObj.water !== '666' && waterObj.N_measure<14){
+			dateString_CMM = "waters=" + waterObj.water + "&timeseries="+waterObj.s_code+"&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
+            apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CMM;
+			console.log('CM!666<14 '+apiCall);
 			}
+			
+	// Navigation for MD			
 		else if (waterObj.formid==='MD' && waterObj.water !== '666'){
 			dateString = "waters=" + waterObj.water + "&km=" + waterObj.distance + "&radius=" + waterObj.radius,
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString;
@@ -276,6 +290,7 @@ if (waterObj.formid==='MD'){
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?timeseries=W,Q&includeTimeseries=true
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?waters=RHEIN&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?waters=RHEIN&timeseries=Q&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true
+// https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/BONN/W/measurements.json?start=P8D
 		
 		$.getJSON(apiCall, function(result) {
 			var anzahl = result.length;
@@ -423,7 +438,7 @@ if (waterObj.formid==='MD'){
     // Create event listeners for when the user submits the form
     $(document).ready(function() {
 
-		
+		// click event for submit button used for MD data
 			$("#submitButton").on('click',function(){
 				//$("#submitButton").click(function() {
 				// When nothing selected-> {water: '666', distance: '50', radius: '10'}
@@ -465,27 +480,90 @@ if (waterObj.formid==='MD'){
         });
 		
 		
+		// click event for submit button used for CM data
 		$("#submitButton_CM").on('click',function(){
 			console.log($('#FormID_CM').val());
-			var water_list_CM_value  = $('#water_list_CM').val() ;
+			
+			var N_measure = 0;
+			var s_code = '';
+			var code_string = '';
+			for (let i = 1; i < 15; i++) {
+				if ($('#opt_'+i+'_CM').val() == '1') {
+					tableau.log($('#opt_'+i+'_CM'));
+					tableau.log($('#opt_'+i+'_CM').val());
 
+					N_measure = N_measure+1
+					switch (i) {
+					  case 1:
+						s_code = "WT";
+						break;
+					  case 2:
+						s_code = "VA";
+						break;
+					  case 3:
+						 s_code = "GRU";
+						break;
+					  case 4:
+						s_code = "Q";
+						break;
+					  case 5:
+						s_code = "TR";
+						break;
+					  case 6:
+						s_code = "W";
+						break;
+					  case 7:
+						s_code = "DFH";
+						break;
+					  case 8:
+						s_code = "WG";
+						break;
+					  case 9:
+						s_code = "WR";
+						break;
+					  case 10:
+						 s_code = "CL";
+						break;
+					  case 11:
+						s_code = "MAXH";
+						break;
+					  case 12:
+						s_code = "NIEDEERSCHLAG";
+						break;
+					  case 13:
+						s_code = "HL";
+						break;
+					  case 14:
+						s_code = "LT";
+					  case 15:
+						s_code = "S";		// Scheint ein Fehler zu geben beim Auswählen von S solo measure				
+					};
+					
+					code_string += s_code + ",";
+				};
+			}
+			
+			// Deelete commata in the end
+			if (code_string.length > '1') {
+				code_string = code_string.slice(0, -1);
+			} 
+			
 				var waterObj = {
 					water: $('#water_list_CM').val().trim(),
-					distance: '0',
-					radius: '0',
-					formid: $('#FormID_CM').val()
+					N_measure: N_measure,
+					formid: $('#FormID_CM').val(),
+					m_code: $('#multiple_select_CM').val(),
+					s_code: code_string
+										
 				};
 					
 			tableau.connectionData = JSON.stringify(waterObj); // Use this variable to pass data to your getSchema and getData functions
 			tableau.connectionName = "Watergauge Germany (Master and transactional data)"; // This will be the data source name in Tableau
 			tableau.submit(); // This sends the connector object to Tableau
 		});
-		
-		
-
-		
-
-		
+	
 		
     });
 })();
+
+
