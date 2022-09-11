@@ -51,7 +51,7 @@ $( document ).ready(function() {
 	
 
 
-
+	// Populate dropdown with list of stations oreselected by water dropwdown list
 	$('#water_list_HD').change(function(){
 		$('#station_list_HD option').remove();
 		$('#submitButton_HD').prop('disabled', true);
@@ -64,7 +64,7 @@ $( document ).ready(function() {
 				var anzahl_HD = result_HD.length;
 				$('#station_list_HD').append("<option value='000'></option>"); 
 				for (var i = 0, len = anzahl_HD; i < len; i++) {
-					$('#station_list_HD').append("<option value=" + result_HD[i].shortname + ">" + result_HD[i].longname + "</option>"); 
+					$('#station_list_HD').append("<option class="+result_HD[i].shortname+"value=" + result_HD[i].uuid + ">" + result_HD[i].longname + "</option>"); 
 			}
 		});
     });	

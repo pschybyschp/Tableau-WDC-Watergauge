@@ -2,16 +2,15 @@
     // Create the connector object
     var myConnector = tableau.makeConnector();
 
-
-
     // Define the schema, Structure definition includes columns, alias and data type
     myConnector.getSchema = function(schemaCallback) {
 
 	
 var waterObj = JSON.parse(tableau.connectionData);
 
+// Schema definition for Masterdata 
 if (waterObj.formid==='MD'){
-	console.log('MD-table');
+	console.log('MD-table, schema definition');
 	console.log(waterObj.formid);
 
 	var cols_MD = [{
@@ -19,17 +18,19 @@ if (waterObj.formid==='MD'){
         dataType: tableau.dataTypeEnum.string
     }, {
         id: "uuid",
+		description: 'Unique ID of the watergauge station',
         dataType: tableau.dataTypeEnum.string
     }, {
         id: "number",
         dataType: tableau.dataTypeEnum.string
     }, {
         id: "shortname",
-        alias: "shortname wasserpegelstaton",
+        alias: "shortname staton",
         dataType: tableau.dataTypeEnum.string
     }, {
         id: "longname",
-        alias: "longname wasserpegelstaton",
+        alias: "longname staton",
+		description: 'Complete name of the station',
         dataType: tableau.dataTypeEnum.string
     }, {
         id: "km",
@@ -65,9 +66,10 @@ if (waterObj.formid==='MD'){
 		schemaCallback([watergauge_table_MD]);
 	
 	
+// Schema definition for Master- (MD) and Transactionaldata (CM)
 	
 } else if (waterObj.formid==='CM'){
-		console.log('CM-table');
+		console.log('CM-table, schema definition');
 	
 		// Define column by column for watergaugestations
         var cols_MD = [{
@@ -210,11 +212,32 @@ if (waterObj.formid==='MD'){
         alias: "",
         dataType: tableau.dataTypeEnum.string
     }];	
+
+} else if (waterObj.formid==='HD'){
+	console.log('HD-table, schema definition');
+
+	// Define column by column for watergaugestations
+	var cols_HD = [{
+		id: "Nr", //not included in datasource, placeholder for artificial running number 
+		dataType: tableau.dataTypeEnum.string
+	}, {
+		id: "uuid",
+		dataType: tableau.dataTypeEnum.string
+	}, {
+		id: "timestamp",
+		dataType: tableau.dataTypeEnum.string
+	}, {
+		id: "waterlevel",
+		dataType: tableau.dataTypeEnum.string
+	}];	
+
+	console.log('Columns definition');
+
 	
 		// Define watergaugestations table with predefined columns
         var watergauge_table_MD = {
             id: "Watergaugestations_CM", //needs to be one word
-            alias: "Watergaugestations installed in landscape of Germany",
+            alias: "Watergaugestations",
             columns: cols_MD
         };		
 		
@@ -231,17 +254,25 @@ if (waterObj.formid==='MD'){
             alias: "Characteristics",
             columns: cols_CM
         };
-	
-		schemaCallback([watergauge_table_MD, watergauge_table_TM, watergauge_table_CM]);
-	
-}	
 
-    };
+		// Define History table with predefined columns
+        var watergauge_table_HD = {
+            id: "History", //needs to be one word
+            alias: "Historydata",
+            columns: cols_HD
+        };
+
+		console.log('Table definition');
+
+		schemaCallback([watergauge_table_HD]);
+	
+	}	// Closes last if statement (HD)
+    };	// Closes function used for schema definition
 
  
 
 
- // Naviagte to the correct URI in order to download the desired data 
+ // Get data - Navigate to the correct URI in order to download the desired data 
     myConnector.getData = function(table, doneCallback) {
 		
         var waterObj = JSON.parse(tableau.connectionData),
@@ -251,40 +282,54 @@ if (waterObj.formid==='MD'){
 		console.log(apiCall);
 		console.log(waterObj.formid);
 		console.log(waterObj.water);
-		console.log(waterObj.N_measure);
+		// console.log(waterObj.N_measure);
 		
 
 	// Navigation for CM
 		if (waterObj.formid==='CM' && waterObj.water == '666' && waterObj.N_measure==14){
 			apiCall = 'https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true'
-			console.log('CM666 '+apiCall);
+			console.log('API switch CM CM666 '+apiCall);
 			}
 		else if (waterObj.formid==='CM' && waterObj.water == '666' && waterObj.N_measure<14){
 			dateString_CM = "timeseries="+waterObj.s_code+"&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CM;
-			console.log('CM666<14 '+apiCall);
+			console.log('API switch CM CM666<14 '+apiCall);
 			}	
 		else if (waterObj.formid==='CM' && waterObj.water !== '666' && waterObj.N_measure==14){
 			dateString_CM = "waters=" + waterObj.water + "&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CM;
-			console.log('CM!666 '+apiCall);
+			console.log('API switch CM CM!666 '+apiCall);
 			}			
 		else if (waterObj.formid==='CM' && waterObj.water !== '666' && waterObj.N_measure<14){
 			dateString_CMM = "waters=" + waterObj.water + "&timeseries="+waterObj.s_code+"&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CMM;
-			console.log('CM!666<14 '+apiCall);
+			console.log('API switch CM CM!666<14 '+apiCall);
 			}
 			
 	// Navigation for MD			
 		else if (waterObj.formid==='MD' && waterObj.water !== '666'){
 			dateString = "waters=" + waterObj.water + "&km=" + waterObj.distance + "&radius=" + waterObj.radius,
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString;
-			console.log('switch MD water');
+			console.log('API switch MD water');
 			}
 		else if (waterObj.formid==='MD' && waterObj.water == '666'){
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?";
-			console.log('switch MD');
+			console.log('API switch MD');
 			}
+
+	// Navigation for HD			
+	else if (waterObj.formid==='HD'){
+		dateString_station = waterObj.uuid;
+		dateString_time = waterObj.days_range;
+		console.log(dateString_station);
+		console.log(dateString_time);
+
+		apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/" + dateString_station +"/W/measurements.json?start=P" + dateString_time + "D";
+		console.log('API switch HD');
+		console.log(apiCall);
+
+		}
+
 
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?timeseries=Q&includeTimeseries=true
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?timeseries=W,Q&includeTimeseries=true
@@ -422,7 +467,16 @@ if (waterObj.formid==='MD'){
 			}
 		
         } // Close if CM
-		
+
+		else if (waterObj.formid==='HD'){
+			for (var i = 0, len = anzahl; i < len; i++) {
+                tableData.push({
+					"Nr": i, //running number given by js
+                    "uuid": waterObj.uuid,
+					"timestamp": result[i].timestamp,
+					"waterlevel": result[i].value
+                });
+		}}
 			
 			
 			table.appendRows(tableData);
@@ -561,6 +615,41 @@ if (waterObj.formid==='MD'){
 			tableau.connectionName = "Watergauge Germany (Master and transactional data)"; // This will be the data source name in Tableau
 			tableau.submit(); // This sends the connector object to Tableau
 		});
+
+		
+		// click event for submit button used for HD data
+		$("#submitButton_HD").on('click',function(){
+			//$("#submitButton").click(function() {
+			// When nothing selected-> {water: '666', distance: '50', radius: '10'}
+			var water_HD_value  = $('#water_list_HD').val() ;
+			var station_HD_value  = $('#station_list_HD').val() ;
+			//var station_HD_text = $('#station_list_HD').html();
+			// var station_HD_class = $('#station_list_HD option: selected').text();
+			//station_HD_text = station_HD_text.find(station_HD_value);
+
+			// Disable geographic search when 'All waters' is selected
+			tableau.log(water_HD_value);
+			tableau.log(station_HD_value);
+			tableau.log($('#FormID_HD').val());
+			tableau.log($('#daysRange').val().trim());
+
+			var waterObj = {
+				water: water_HD_value.trim(),
+				uuid: station_HD_value.trim(),
+				formid: $('#FormID_HD').val(),
+				//class: station_HD_class,
+				//station: station_HD_text,
+				days_range: $('#daysRange').val().trim()
+			};
+	
+		
+			
+		console.log(waterObj);
+		tableau.connectionData = JSON.stringify(waterObj); // Use this variable to pass data to your getSchema and getData functions
+
+		tableau.connectionName = "Wassergaugestations Germany (History data)"; // This will be the data source name in Tableau
+		tableau.submit(); // This sends the connector object to Tableau
+	});
 	
 		
     });
