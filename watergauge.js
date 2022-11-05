@@ -2,471 +2,476 @@
     // Create the connector object
     var myConnector = tableau.makeConnector();
 
+
+
     // Define the schema, Structure definition includes columns, alias and data type
-    myConnector.getSchema = function(schemaCallback) {
+    myConnector.getSchema = function(schemaCallback) 
+	{	
+		var waterObj = JSON.parse(tableau.connectionData);
 
-	
-var waterObj = JSON.parse(tableau.connectionData);
+		if (waterObj.formid==='MD')
+		{
+			console.log('MD-table, schema definition');
+			console.log(waterObj.formid);
 
-// Schema definition for Masterdata 
-if (waterObj.formid==='MD'){
-	console.log('MD-table, schema definition');
-	console.log(waterObj.formid);
-
-	var cols_MD = [{
-        id: "Nr", //not included in datasource, placeholder for artificial running number 
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "uuid",
-		description: 'Unique ID of the watergauge station',
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "number",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "shortname",
-        alias: "shortname staton",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "longname",
-        alias: "longname staton",
-		description: 'Complete name of the station',
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "km",
-        alias: "km",
-        dataType: tableau.dataTypeEnum.float
-    }, {
-        id: "agency",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "longitude",
-        alias: "longitude wasserpegelstaton",
-        dataType: tableau.dataTypeEnum.float
-    }, {
-        id: "latitude",
-        alias: "longitude wasserpegelstaton",
-        dataType: tableau.dataTypeEnum.float
-    }, {
-        id: "watershort",
-        alias: "water shortname",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "waterlong",
-        alias: "water longname",
-        dataType: tableau.dataTypeEnum.string
-    }];
+			var cols_MD = [{
+				id: "Nr", //not included in datasource, placeholder for artificial running number 
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "uuid",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "number",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "shortname",
+				alias: "shortname wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "longname",
+				alias: "longname wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "km",
+				alias: "km",
+				dataType: tableau.dataTypeEnum.float
+			}, {
+				id: "agency",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "longitude",
+				alias: "longitude wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.float
+			}, {
+				id: "latitude",
+				alias: "longitude wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.float
+			}, {
+				id: "watershort",
+				alias: "water shortname",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "waterlong",
+				alias: "water longname",
+				dataType: tableau.dataTypeEnum.string
+			}];
+		
 		// Define watergaugestations table with predefined columns
-        var watergauge_table_MD = {
-            id: "watergaugestations", //needs to be one word
-            alias: "Watergaugestations installed in landscape of Germany",
-            columns: cols_MD
-        };		
+			var watergauge_table_MD = {
+				id: "watergaugestations", //needs to be one word
+				alias: "Watergaugestations installed in landscape of Germany",
+				columns: cols_MD
+			};		
 	
-		schemaCallback([watergauge_table_MD]);
+			schemaCallback([watergauge_table_MD]);
 	
-	
-// Schema definition for Master- (MD) and Transactionaldata (CM)
-	
-} else if (waterObj.formid==='CM'){
-		console.log('CM-table, schema definition');
+		} // Close first IF-Statements
+		else if (waterObj.formid==='CM')
+		{
+			console.log('CM-tables, schema definition');
 	
 		// Define column by column for watergaugestations
-        var cols_MD = [{
-        id: "Nr", //not included in datasource, placeholder for artificial running number 
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "uuid",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "number",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "shortname",
-        alias: "shortname wasserpegelstaton",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "longname",
-        alias: "longname wasserpegelstaton",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "km",
-        alias: "km",
-        dataType: tableau.dataTypeEnum.float
-    }, {
-        id: "agency",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "longitude",
-        alias: "longitude wasserpegelstaton",
-        dataType: tableau.dataTypeEnum.float
-    }, {
-        id: "latitude",
-        alias: "longitude wasserpegelstaton",
-        dataType: tableau.dataTypeEnum.float
-    }, {
-        id: "watershort",
-        alias: "water shortname",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "waterlong",
-        alias: "water longname",
-        dataType: tableau.dataTypeEnum.string
-	}];	
+			var cols_MD = [{
+				id: "Nr", //not included in datasource, placeholder for artificial running number 
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "uuid",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "number",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "shortname",
+				alias: "shortname wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "longname",
+				alias: "longname wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "km",
+				alias: "km",
+				dataType: tableau.dataTypeEnum.float
+			}, {
+				id: "agency",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "longitude",
+				alias: "longitude wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.float
+			}, {
+				id: "latitude",
+				alias: "longitude wasserpegelstaton",
+				dataType: tableau.dataTypeEnum.float
+			}, {
+				id: "watershort",
+				alias: "water shortname",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "waterlong",
+				alias: "water longname",
+				dataType: tableau.dataTypeEnum.string
+			}];	// Close first column variable
 	
-		var cols_TM = [{
-        id: "Nr", //not included in datasource, placeholder for artificial running number 
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "Nr_k",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "uuid",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "timeseries_code",
-        alias: "Code of timeseries measurement",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-        id: "timeseries",
-        alias: "Name of timeseries measurement",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-        id: "timeseries_unit",
-        alias: "Unit of timeseries measurement",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-        id: "equidistance",
-        alias: "Distance of the measured values in minutes",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-        id: "timestamp",
-        alias: "timestamp of current measurement",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-        id: "currentMeasurement",
-        alias: "currentMeasurement",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-        id: "trend",
-        alias: "Trend of water movement",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-        id: "stateMnwMhw",
-        alias: "Relation between Mnw and Mhw",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "stateNswHsw",
-        alias: "Relation between Nsw and Hsw",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "gaugeZero",
-        alias: "Gaugezero",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "valid_from",
-        alias: "Validity of watergauge",
-        dataType: tableau.dataTypeEnum.string
-    }];
+			var cols_TM = [{
+				id: "Nr", //not included in datasource, placeholder for artificial running number 
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "Nr_k",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "uuid",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "timeseries_code",
+				alias: "Code of timeseries measurement",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "timeseries",
+				alias: "Name of timeseries measurement",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "timeseries_unit",
+				alias: "Unit of timeseries measurement",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "equidistance",
+				alias: "Distance of the measured values in minutes",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "timestamp",
+				alias: "timestamp of current measurement",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "currentMeasurement",
+				alias: "currentMeasurement",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "trend",
+				alias: "Trend of water movement",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "stateMnwMhw",
+				alias: "Relation between Mnw and Mhw",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "stateNswHsw",
+				alias: "Relation between Nsw and Hsw",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "gaugeZero",
+				alias: "Gaugezero",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "valid_from",
+				alias: "Validity of watergauge",
+				dataType: tableau.dataTypeEnum.string
+			}]; 	// Close second column variable
 	
 	
-		var cols_CM = [{
-        id: "Nr", //not included in datasource, placeholder for artificial running number 
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "Nr_cv",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-        id: "uuid",
-        dataType: tableau.dataTypeEnum.string
-    }, {
-		id: "Code",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "Characteristics",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "Unit",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "Value",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "Valid_from",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-	}, {	
-		id: "occurrences",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-	}, {		
-		id: "timespanStart",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "timespanEnd",
-        alias: "",
-        dataType: tableau.dataTypeEnum.string
-    }];	
-
-} else if (waterObj.formid==='HD'){
-	console.log('HD-table, schema definition');
-
-	// Define column by column for watergaugestations
-	var cols_HD = [{
-		id: "Nr", //not included in datasource, placeholder for artificial running number 
-		dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "uuid",
-		dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "timestamp",
-		dataType: tableau.dataTypeEnum.string
-	}, {
-		id: "waterlevel",
-		dataType: tableau.dataTypeEnum.string
-	}];	
-
-	console.log('Columns definition');
-
+			var cols_CM = [{
+				id: "Nr", //not included in datasource, placeholder for artificial running number 
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "Nr_cv",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "uuid",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "Code",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "Characteristics",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "Unit",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "Value",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "Valid_from",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}, {	
+				id: "occurrences",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}, {		
+				id: "timespanStart",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "timespanEnd",
+				alias: "",
+				dataType: tableau.dataTypeEnum.string
+			}];		// Close third column variable
 	
-		// Define watergaugestations table with predefined columns
-        var watergauge_table_MD = {
-            id: "Watergaugestations_CM", //needs to be one word
-            alias: "Watergaugestations",
-            columns: cols_MD
-        };		
+			// Define watergaugestations table with predefined columns
+			var watergauge_table_MD = {
+				id: "Watergaugestations_CM", //needs to be one word
+				alias: "Watergaugestations installed in landscape of Germany",
+				columns: cols_MD
+			};		
+			
+			// Define Timeseries table with predefined columns
+			var watergauge_table_TM = {
+				id: "Timeseries", //needs to be one word
+				alias: "Timeseries",
+				columns: cols_TM
+			};	
+			
+			// Define Characteristics table with predefined columns
+			var watergauge_table_CM = {
+				id: "Characteristics", //needs to be one word
+				alias: "Characteristics",
+				columns: cols_CM
+			};
 		
-		// Define Timeseries table with predefined columns
-        var watergauge_table_TM = {
-            id: "Timeseries", //needs to be one word
-            alias: "Timeseries",
-            columns: cols_TM
-        };	
-		
-		// Define Characteristics table with predefined columns
-        var watergauge_table_CM = {
-            id: "Characteristics", //needs to be one word
-            alias: "Characteristics",
-            columns: cols_CM
-        };
-
-		// Define History table with predefined columns
-        var watergauge_table_HD = {
-            id: "History", //needs to be one word
-            alias: "Historydata",
-            columns: cols_HD
-        };
-
-		console.log('Table definition');
-
-		schemaCallback([watergauge_table_HD]);
+			schemaCallback([watergauge_table_MD, watergauge_table_TM, watergauge_table_CM]);
 	
-	}	// Closes last if statement (HD)
-    };	// Closes function used for schema definition
+		}	// Close second IF-Statements
+		
+		else if (waterObj.formid==='HD')
+		{
+			console.log('HD-table, schema definition');
 
- 
+			// Define column by column for watergaugestations
+			var cols_HD = [{
+				id: "Nr", //not included in datasource, placeholder for artificial running number 
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "uuid",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "timestamp",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "waterlevel",
+				dataType: tableau.dataTypeEnum.string
+			}];	
+
+			console.log('Columns definition');
+			
+			// Define History table with predefined columns
+			var watergauge_table_HD = {
+				id: "History", //needs to be one word
+				alias: "Historydata",
+				columns: cols_HD
+			};
+
+			console.log('Table definition');
+
+			schemaCallback([watergauge_table_HD]);
+		}	// Closes last if statement (HD)	
+
+    }; // Closes schemacallback
 
 
- // Get data - Navigate to the correct URI in order to download the desired data 
-    myConnector.getData = function(table, doneCallback) {
+//--------------Get data section-----------------------
+ // Navigate to the correct URI in order to download the desired data 
+    myConnector.getData = function(table, doneCallback) 
+	{
 		
         var waterObj = JSON.parse(tableau.connectionData),
             dateString = "waters=" + waterObj.water + "&km=" + waterObj.distance + "&radius=" + waterObj.radius,
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString;
 				
-		console.log(apiCall);
-		console.log(waterObj.formid);
-		console.log(waterObj.water);
-		// console.log(waterObj.N_measure);
+			console.log(apiCall);
+			console.log(waterObj.formid);
+			console.log(waterObj.water);
+			console.log(waterObj.N_measure);
 		
-
-	// Navigation for CM
+	// Navigation for CM-data-> select the correct REST-API
 		if (waterObj.formid==='CM' && waterObj.water == '666' && waterObj.N_measure==14){
 			apiCall = 'https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true'
-			console.log('API switch CM CM666 '+apiCall);
+			console.log('CM666 '+apiCall);
 			}
 		else if (waterObj.formid==='CM' && waterObj.water == '666' && waterObj.N_measure<14){
 			dateString_CM = "timeseries="+waterObj.s_code+"&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CM;
-			console.log('API switch CM CM666<14 '+apiCall);
+			console.log('CM666<14 '+apiCall);
 			}	
 		else if (waterObj.formid==='CM' && waterObj.water !== '666' && waterObj.N_measure==14){
 			dateString_CM = "waters=" + waterObj.water + "&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CM;
-			console.log('API switch CM CM!666 '+apiCall);
+			console.log('CM!666 '+apiCall);
 			}			
 		else if (waterObj.formid==='CM' && waterObj.water !== '666' && waterObj.N_measure<14){
 			dateString_CMM = "waters=" + waterObj.water + "&timeseries="+waterObj.s_code+"&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true",
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString_CMM;
-			console.log('API switch CM CM!666<14 '+apiCall);
+			console.log('CM!666<14 '+apiCall);
 			}
 			
-	// Navigation for MD			
+	// Navigation for MD-data-> select the correct REST-API			
 		else if (waterObj.formid==='MD' && waterObj.water !== '666'){
 			dateString = "waters=" + waterObj.water + "&km=" + waterObj.distance + "&radius=" + waterObj.radius,
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString;
-			console.log('API switch MD water');
+			console.log('switch MD water');
 			}
 		else if (waterObj.formid==='MD' && waterObj.water == '666'){
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?";
-			console.log('API switch MD');
+			console.log('switch MD');
 			}
 
-	// Navigation for HD			
-	else if (waterObj.formid==='HD'){
-		dateString_station = waterObj.uuid;
-		dateString_time = waterObj.days_range;
-		console.log(dateString_station);
-		console.log(dateString_time);
+//----------------
+	// Navigation for HD-data-> select the correct REST-API			
+		else if (waterObj.formid==='HD'){
+			dateString_station = waterObj.uuid;
+			dateString_time = waterObj.days_range;
+			console.log(dateString_station);
+			console.log(dateString_time);
 
-		apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/" + dateString_station +"/W/measurements.json?start=P" + dateString_time + "D";
-		console.log('API switch HD');
-		console.log(apiCall);
+			apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/" + dateString_station +"/W/measurements.json?start=P" + dateString_time + "D";
+			console.log('API switch HD');
+			console.log(apiCall);
 
-		}
+			}
 
-
+//------------
+// Different REST-API URLs
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?timeseries=Q&includeTimeseries=true
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?timeseries=W,Q&includeTimeseries=true
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?waters=RHEIN&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?waters=RHEIN&timeseries=Q&includeTimeseries=true&includeCurrentMeasurement=true&includeCharacteristicValues=true
 // https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/BONN/W/measurements.json?start=P8D
+//---------------------
 		
+		// Call the determined REST-API from navigation part and load data
 		$.getJSON(apiCall, function(result) {
 			var anzahl = result.length;
 			var gaugevalue = "";
 			var gaugeunit = "";
 			var MarkeIunit = "";
-                
-				tableData = [];
-				
-        
-		if (waterObj.formid==='MD'){
-			for (var i = 0, len = anzahl; i < len; i++) {
-                tableData.push({
-					"Nr": i, //running number given by js
-                    "uuid": result[i].uuid,
-					"number": result[i].number,
-					"shortname": result[i].shortname,
-					"longname": result[i].longname,
-					"km": result[i].km,
-					"agency": result[i].agency,
-					"longitude": result[i].longitude,
-					"latitude": result[i].latitude,
-					"watershort": result[i].water.shortname,
-					"waterlong": result[i].water.longname
-                });
-		}}
+        // Initiate empty array        
+			tableData = [];
+
+			if (waterObj.formid==='MD'){
+				for (var i = 0, len = anzahl; i < len; i++) {
+				// Push the MD-data in array		       
+					tableData.push({
+						"Nr": i, //running number given by js
+						"uuid": result[i].uuid,
+						"number": result[i].number,
+						"shortname": result[i].shortname,
+						"longname": result[i].longname,
+						"km": result[i].km,
+						"agency": result[i].agency,
+						"longitude": result[i].longitude,
+						"latitude": result[i].latitude,
+						"watershort": result[i].water.shortname,
+						"waterlong": result[i].water.longname
+					});
+			}}
 		 
-		else if (waterObj.formid==='CM'){
-			if (table.tableInfo.id == "Watergaugestations_CM") {
+			else if (waterObj.formid==='CM'){
+				if (table.tableInfo.id == "Watergaugestations_CM") {
 
-				// Iterate over the JSON object
-				for (var i = 0, len = anzahl; i < len; i++) {
-					var TM_anzahl = result[i].timeseries.length;		
-								
-						tableData.push({
-							"Nr": i, //running number given by js
-							"uuid": result[i].uuid,
-							"number": result[i].number,
-							"shortname": result[i].shortname,
-							"longname": result[i].longname,
-							"km": result[i].km,
-							"agency": result[i].agency,
-							"longitude": result[i].longitude,
-							"latitude": result[i].latitude,
-							"watershort": result[i].water.shortname,
-							"waterlong": result[i].water.longname
-						});		
-					}
-				}			
-			
-			if (table.tableInfo.id == "Timeseries") {
+					// Iterate over the JSON object
+					for (var i = 0, len = anzahl; i < len; i++) {
+						var TM_anzahl = result[i].timeseries.length;		
+									
+							tableData.push({
+								"Nr": i, //running number given by js
+								"uuid": result[i].uuid,
+								"number": result[i].number,
+								"shortname": result[i].shortname,
+								"longname": result[i].longname,
+								"km": result[i].km,
+								"agency": result[i].agency,
+								"longitude": result[i].longitude,
+								"latitude": result[i].latitude,
+								"watershort": result[i].water.shortname,
+								"waterlong": result[i].water.longname
+							});		
+						}
+					}			
+				
+				if (table.tableInfo.id == "Timeseries") {
 
-				// Iterate over the JSON object
-				for (var i = 0, len = anzahl; i < len; i++) {
-					var TM_anzahl = result[i].timeseries.length;
+					// Iterate over the JSON object
+					for (var i = 0, len = anzahl; i < len; i++) {
+						var TM_anzahl = result[i].timeseries.length;
 
-					for (var k = 0, len_TM = TM_anzahl; k < len_TM; k++) {
-					
-						// Check if gauge unit is declared
-						if (result[i].timeseries[0].gaugeZero?.unit) {
-								gaugeunit = result[i].timeseries[0].gaugeZero.unit;
-							} else {
-								gaugeunit = 'TBA';
-									};
+						for (var k = 0, len_TM = TM_anzahl; k < len_TM; k++) {
 						
-						// Check if gauge value is declared
-						if (result[i].timeseries[0].gaugeZero?.value) {
-								gaugevalue = result[i].timeseries[0].gaugeZero.value;
-							} else {
-								gaugevalue = 'TBA';
-									};
-						// Check if gaugezero validity is declared
-						if (result[i].timeseries[0].gaugeZero?.validFrom) {
-								gaugevalid = result[i].timeseries[0].gaugeZero.validFrom;
-							} else {
-								gaugevalid = 'TBA';
-									};			
-								
-
-						tableData.push({
-							"Nr": i, //running number given by js
-							"Nr_k": k, //running number given by js
-							"uuid": result[i].uuid,
+							// Check if gauge unit is declared
+							if (result[i].timeseries[0].gaugeZero?.unit) {
+									gaugeunit = result[i].timeseries[0].gaugeZero.unit;
+								} else {
+									gaugeunit = 'TBA';
+										};
 							
-							// Timeseries data push
-							"timeseries_code": result[i].timeseries[k].shortname,
-							"timeseries": result[i].timeseries[k].longname,
-							"timeseries_unit": result[i].timeseries[k].unit,
-							"equidistance": result[i].timeseries[k].equidistance,
-							"timestamp": result[i].timeseries[k].currentMeasurement.timestamp,
-							"currentMeasurement": result[i].timeseries[k].currentMeasurement.value,
-							"trend": result[i].timeseries[k].currentMeasurement.trend,
-							"stateMnwMhw": result[i].timeseries[k].currentMeasurement.stateMnwMhw,
-							"stateNswHsw": result[i].timeseries[k].currentMeasurement.stateNswHsw,
-							"gaugeZero": gaugevalue + ' ' + gaugeunit,
-							"valid_from": gaugevalid
-						});		
-					}
-				}
-			}
-			
-			if (table.tableInfo.id == "Characteristics") {
+							// Check if gauge value is declared
+							if (result[i].timeseries[0].gaugeZero?.value) {
+									gaugevalue = result[i].timeseries[0].gaugeZero.value;
+								} else {
+									gaugevalue = 'TBA';
+										};
+							// Check if gaugezero validity is declared
+							if (result[i].timeseries[0].gaugeZero?.validFrom) {
+									gaugevalid = result[i].timeseries[0].gaugeZero.validFrom;
+								} else {
+									gaugevalid = 'TBA';
+										};			
+									
 
-				// Iterate over the JSON object
-				for (var i = 0, len = anzahl; i < len; i++) {
-					var TM_anzahl = result[i].timeseries.length;
-					var CV_anzahl = result[i].timeseries[0].characteristicValues.length;
-						
-						for (var cv = 0, len_CV = CV_anzahl; cv < len_CV; cv++) {	
 							tableData.push({
 								"Nr": i, //running number given by js
 								"Nr_k": k, //running number given by js
-								"Nr_cv": cv,
 								"uuid": result[i].uuid,
 								
-								// Characteristic data push
-								"Code":result[i].timeseries[0].characteristicValues[cv].shortname,
-								"Characteristics": result[i].timeseries[0].characteristicValues[cv].longname,
-								"Unit": result[i].timeseries[0].characteristicValues[cv].unit,
-								"Value": result[i].timeseries[0].characteristicValues[cv].value,
-								"Valid_from": result[i].timeseries[0].characteristicValues[cv].validFrom,
-								"occurrences": result[i].timeseries[0].characteristicValues[cv].occurrences,
-								"timespanStart": result[i].timeseries[0].characteristicValues[cv].timespanStart,
-								"timespanEnd": result[i].timeseries[0].characteristicValues[cv].timespanEnd
-							});
+								// Timeseries data push
+								"timeseries_code": result[i].timeseries[k].shortname,
+								"timeseries": result[i].timeseries[k].longname,
+								"timeseries_unit": result[i].timeseries[k].unit,
+								"equidistance": result[i].timeseries[k].equidistance,
+								"timestamp": result[i].timeseries[k].currentMeasurement.timestamp,
+								"currentMeasurement": result[i].timeseries[k].currentMeasurement.value,
+								"trend": result[i].timeseries[k].currentMeasurement.trend,
+								"stateMnwMhw": result[i].timeseries[k].currentMeasurement.stateMnwMhw,
+								"stateNswHsw": result[i].timeseries[k].currentMeasurement.stateNswHsw,
+								"gaugeZero": gaugevalue + ' ' + gaugeunit,
+								"valid_from": gaugevalid
+							});		
 						}
-					
+					}
 				}
-			}
-		
-        } // Close if CM
+				
+				if (table.tableInfo.id == "Characteristics") {
+
+					// Iterate over the JSON object
+					for (var i = 0, len = anzahl; i < len; i++) {
+						var TM_anzahl = result[i].timeseries.length;
+						var CV_anzahl = result[i].timeseries[0].characteristicValues.length;
+							
+							for (var cv = 0, len_CV = CV_anzahl; cv < len_CV; cv++) {	
+								tableData.push({
+									"Nr": i, //running number given by js
+									"Nr_k": k, //running number given by js
+									"Nr_cv": cv,
+									"uuid": result[i].uuid,
+									
+									// Characteristic data push
+									"Code":result[i].timeseries[0].characteristicValues[cv].shortname,
+									"Characteristics": result[i].timeseries[0].characteristicValues[cv].longname,
+									"Unit": result[i].timeseries[0].characteristicValues[cv].unit,
+									"Value": result[i].timeseries[0].characteristicValues[cv].value,
+									"Valid_from": result[i].timeseries[0].characteristicValues[cv].validFrom,
+									"occurrences": result[i].timeseries[0].characteristicValues[cv].occurrences,
+									"timespanStart": result[i].timeseries[0].characteristicValues[cv].timespanStart,
+									"timespanEnd": result[i].timeseries[0].characteristicValues[cv].timespanEnd
+								});
+							}						
+					}
+				}
+			
+			} // Close if CM
 
 		else if (waterObj.formid==='HD'){
 			for (var i = 0, len = anzahl; i < len; i++) {
@@ -478,15 +483,15 @@ if (waterObj.formid==='MD'){
                 });
 		}}
 			
-			
 			table.appendRows(tableData);
 
             doneCallback();
         });
     };
+	
+//---Get data section completed-----------------------------------
 
     tableau.registerConnector(myConnector);
-
 
 
     // Create event listeners for when the user submits the form
@@ -615,9 +620,10 @@ if (waterObj.formid==='MD'){
 			tableau.connectionName = "Watergauge Germany (Master and transactional data)"; // This will be the data source name in Tableau
 			tableau.submit(); // This sends the connector object to Tableau
 		});
-
 		
-		// click event for submit button used for HD data
+//------------
+
+// click event for submit button used for HD data
 		$("#submitButton_HD").on('click',function(){
 			//$("#submitButton").click(function() {
 			// When nothing selected-> {water: '666', distance: '50', radius: '10'}
@@ -641,15 +647,16 @@ if (waterObj.formid==='MD'){
 				//station: station_HD_text,
 				days_range: $('#daysRange').val().trim()
 			};
-	
-		
 			
+						
 		console.log(waterObj);
 		tableau.connectionData = JSON.stringify(waterObj); // Use this variable to pass data to your getSchema and getData functions
 
 		tableau.connectionName = "Wassergaugestations Germany (History data)"; // This will be the data source name in Tableau
 		tableau.submit(); // This sends the connector object to Tableau
 	});
+
+//---------------
 	
 		
     });
