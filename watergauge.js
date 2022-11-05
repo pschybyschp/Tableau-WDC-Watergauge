@@ -19,17 +19,18 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "uuid",
+				alias: "UUID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "number",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "shortname",
-				alias: "shortname wasserpegelstaton",
+				alias: "staton shortname",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "longname",
-				alias: "longname wasserpegelstaton",
+				alias: "staton longname ",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "km",
@@ -40,11 +41,11 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "longitude",
-				alias: "longitude wasserpegelstaton",
+				alias: "longitude staton",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "latitude",
-				alias: "longitude wasserpegelstaton",
+				alias: "longitude staton",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "watershort",
@@ -59,7 +60,8 @@
 		// Define watergaugestations table with predefined columns
 			var watergauge_table_MD = {
 				id: "watergaugestations", //needs to be one word
-				alias: "Watergaugestations installed in landscape of Germany",
+				alias: "Watergaugestations",
+				description: "Please find here master data for all stations in Germany",
 				columns: cols_MD
 			};		
 	
@@ -76,17 +78,18 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "uuid",
+				alias: "UUID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "number",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "shortname",
-				alias: "shortname wasserpegelstaton",
+				alias: "staton shortname",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "longname",
-				alias: "longname wasserpegelstaton",
+				alias: "station longname",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "km",
@@ -97,11 +100,11 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "longitude",
-				alias: "longitude wasserpegelstaton",
+				alias: "longitude staton",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "latitude",
-				alias: "longitude wasserpegelstaton",
+				alias: "longitude staton",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "watershort",
@@ -121,38 +124,40 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "uuid",
+				alias: "UUID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "timeseries_code",
-				alias: "Code of timeseries measurement",
+				description: "Code of timeseries measurement",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "timeseries",
-				alias: "Name of timeseries measurement",
+				description: "Name of timeseries measurement",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "timeseries_unit",
-				alias: "Unit of timeseries measurement",
+				description: "Unit of timeseries measurement",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "equidistance",
-				alias: "Distance of the measured values in minutes",
+				description: "Distance of the measured values in minutes",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "timestamp",
-				alias: "timestamp of current measurement",
+				alias: "Timestamp of current measurement",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "currentMeasurement",
-				alias: "currentMeasurement",
-				dataType: tableau.dataTypeEnum.string
+				alias: "Current Measurement",
+				dataType: tableau.dataTypeEnum.float,
+				//aggType: avg
 			}, {
 				id: "trend",
-				alias: "Trend of water movement",
+				description: "Trend of water movement",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "stateMnwMhw",
-				alias: "Relation between Mnw and Mhw",
+				description: "Relation between Mnw and Mhw",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "stateNswHsw",
@@ -164,8 +169,8 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "valid_from",
-				alias: "Validity of watergauge",
-				dataType: tableau.dataTypeEnum.string
+				description: "Validity of watergauge",
+				dataType: tableau.dataTypeEnum.date
 			}]; 	// Close second column variable
 	
 	
@@ -177,14 +182,15 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "uuid",
+				alias: "UUID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "Code",
-				alias: "",
+				alias: "Code",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "Characteristics",
-				alias: "",
+				alias: "Characteristics name",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "Unit",
@@ -193,11 +199,11 @@
 			}, {
 				id: "Value",
 				alias: "",
-				dataType: tableau.dataTypeEnum.string
+				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "Valid_from",
 				alias: "",
-				dataType: tableau.dataTypeEnum.string
+				dataType: tableau.dataTypeEnum.date
 			}, {	
 				id: "occurrences",
 				alias: "",
@@ -205,17 +211,19 @@
 			}, {		
 				id: "timespanStart",
 				alias: "",
-				dataType: tableau.dataTypeEnum.string
+				dataType: tableau.dataTypeEnum.date
 			}, {
 				id: "timespanEnd",
 				alias: "",
-				dataType: tableau.dataTypeEnum.string
+				dataType: tableau.dataTypeEnum.date
 			}];		// Close third column variable
 	
 			// Define watergaugestations table with predefined columns
 			var watergauge_table_MD = {
 				id: "Watergaugestations_CM", //needs to be one word
-				alias: "Watergaugestations installed in landscape of Germany",
+				alias: "Watergaugestations",
+				description: "Please find here master data for all stations in Germany",
+
 				columns: cols_MD
 			};		
 			
@@ -223,6 +231,7 @@
 			var watergauge_table_TM = {
 				id: "Timeseries", //needs to be one word
 				alias: "Timeseries",
+				description: "Please find here transactional data for timeseries measurements",
 				columns: cols_TM
 			};	
 			
@@ -230,6 +239,7 @@
 			var watergauge_table_CM = {
 				id: "Characteristics", //needs to be one word
 				alias: "Characteristics",
+				description: "Please find here transactional data for characteristics",
 				columns: cols_CM
 			};
 		
@@ -247,13 +257,15 @@
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "uuid",
+				alias: "station shortname",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "timestamp",
-				dataType: tableau.dataTypeEnum.string
+				dataType: tableau.dataTypeEnum.datetime
 			}, {
 				id: "waterlevel",
-				dataType: tableau.dataTypeEnum.string
+				dataType: tableau.dataTypeEnum.float,
+				//aggType: avg
 			}];	
 
 			console.log('Columns definition');
@@ -261,7 +273,8 @@
 			// Define History table with predefined columns
 			var watergauge_table_HD = {
 				id: "History", //needs to be one word
-				alias: "Historydata",
+				alias: "Historical data",
+				description: "Please find here historical watergauge data - only one station at a time can be requested",
 				columns: cols_HD
 			};
 
@@ -534,7 +547,7 @@
 			console.log(waterObj);
             tableau.connectionData = JSON.stringify(waterObj); // Use this variable to pass data to your getSchema and getData functions
 
-            tableau.connectionName = "Wassergaugestations Germany (Master data)"; // This will be the data source name in Tableau
+            tableau.connectionName = "Watergaugestations (Master data)"; // This will be the data source name in Tableau
             tableau.submit(); // This sends the connector object to Tableau
         });
 		
@@ -617,7 +630,7 @@
 				};
 					
 			tableau.connectionData = JSON.stringify(waterObj); // Use this variable to pass data to your getSchema and getData functions
-			tableau.connectionName = "Watergauge Germany (Master and transactional data)"; // This will be the data source name in Tableau
+			tableau.connectionName = "Watergauge (Master and transactional data)"; // This will be the data source name in Tableau
 			tableau.submit(); // This sends the connector object to Tableau
 		});
 		
@@ -652,7 +665,7 @@
 		console.log(waterObj);
 		tableau.connectionData = JSON.stringify(waterObj); // Use this variable to pass data to your getSchema and getData functions
 
-		tableau.connectionName = "Wassergaugestations Germany (History data)"; // This will be the data source name in Tableau
+		tableau.connectionName = "Watergaugestations (Historical data)"; // This will be the data source name in Tableau
 		tableau.submit(); // This sends the connector object to Tableau
 	});
 
