@@ -1,7 +1,13 @@
-# Tableau-WDC-Watergauge-stations-filter
-The Tableau Webdataconnector Watergaugestations-filter is based on the Tableau Webdataconnector Watergaugestations. 
-It loads master data of the watergauge stations available in Germany. 
-It provides a form to filter the data which should be loaded.
+# Tableau-WDC-Watergauge
+To use this webdataconnector please follow along with the descriptions on https://tableau.github.io/webdataconnector/docs/
+You need to have a local node server running or you upload the WDC to a node server in the web.
+
+
+The Tableau Webdataconnector Watergauge is based on the Tableau Webdataconnector Watergaugestations. 
+- It loads master data of the watergauge stations available in Germany. 
+- It loads master and transactional data of the watergauge stations available in Germany. 
+- It loads historical data of the watergauge stations available in Germany. 
+It provides a 3 forms to filter the data which should be loaded.
 
 Major improvments comparing to Tableau Webdataconnector Watergaugestations:
 - Provision of a form to filter watergaugestations by waters
@@ -21,23 +27,4 @@ https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?waters=RHEI
 The documentation of the data can be accessed using 
 https://www.pegelonline.wsv.de/webservice/dokuRestapi
 
-Its JSON data about the watergauge stations installed in the sea and river landscape of Germany with following structure:
-
-uuid	-     Eindeutige unveränderliche ID         - ID
-
-number	-   Pegelnummer                           - Number of watergauge station
-
-shortname	- Pegelname (max. 40 Zeichen)           - Watergauge name, short
-
-longname -  Pegelname (max. 255 Zeichen)          - Watergauge name, short
-
-km	-       Flusskilometer                        - km of river
-
-agency	-   Wasserstraßen- und Schifffahrtsamt    - agency name
-
-longitude - Längengrad in WGS84 Dezimalnotation   - longitude
-
-latitude -	Breitengrad in WGS84 Dezimalnotation  - latitude
-
-water	-     Angaben zum Gewässer                  - name of water/river
 
