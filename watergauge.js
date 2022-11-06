@@ -20,6 +20,7 @@
 			}, {
 				id: "uuid",
 				alias: "UUID",
+				description: "Unique station ID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "number",
@@ -35,17 +36,21 @@
 			}, {
 				id: "km",
 				alias: "km",
+				description: "distance from river origin in km",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "agency",
+				description: "Waterways and Shipping Office in Germany",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "longitude",
 				alias: "longitude staton",
+				description: "longitude in WGS84",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "latitude",
 				alias: "longitude staton",
+				description: "latitude in WGS84",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "watershort",
@@ -79,6 +84,7 @@
 			}, {
 				id: "uuid",
 				alias: "UUID",
+				description: "Unique station ID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "number",
@@ -94,6 +100,7 @@
 			}, {
 				id: "km",
 				alias: "km",
+				description: "distance from river origin in km",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "agency",
@@ -101,10 +108,12 @@
 			}, {
 				id: "longitude",
 				alias: "longitude staton",
+				description: "longitude in WGS84",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "latitude",
-				alias: "longitude staton",
+				alias: "latitude staton",
+				description: "latitude in WGS84",
 				dataType: tableau.dataTypeEnum.float
 			}, {
 				id: "watershort",
@@ -125,6 +134,7 @@
 			}, {
 				id: "uuid",
 				alias: "UUID",
+				description: "Unique station ID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "timeseries_code",
@@ -150,10 +160,14 @@
 				id: "currentMeasurement",
 				alias: "Current Measurement",
 				dataType: tableau.dataTypeEnum.float,
-				//aggType: avg
+				aggType: tableau.dataTypeEnum.avg,
 			}, {
 				id: "trend",
-				description: "Trend of water movement",
+				description: "Code of Trend of water movement",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "trend_describe",
+				description: "Describes the Code of Trend of water movement",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "stateMnwMhw",
@@ -183,6 +197,7 @@
 			}, {
 				id: "uuid",
 				alias: "UUID",
+				description: "Unique station ID",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "Code",
@@ -432,7 +447,17 @@
 								} else {
 									gaugevalid = 'TBA';
 										};			
-									
+							
+							// Split trend code into text
+							if (result[i].timeseries[k].currentMeasurement.trend = '1') {
+								trend_description = 'Increasing water'
+								} else if (result[i].timeseries[k].currentMeasurement.trend = '0') {
+									trend_description = 'Constant water'
+								} else if (result[i].timeseries[k].currentMeasurement.trend = '-1') {
+									trend_description = 'Decreasing water'
+								} else {
+									trend_description = 'Not determined'
+								}	;		
 
 							tableData.push({
 								"Nr": i, //running number given by js
@@ -447,6 +472,7 @@
 								"timestamp": result[i].timeseries[k].currentMeasurement.timestamp,
 								"currentMeasurement": result[i].timeseries[k].currentMeasurement.value,
 								"trend": result[i].timeseries[k].currentMeasurement.trend,
+								"trend_describe": trend_description,
 								"stateMnwMhw": result[i].timeseries[k].currentMeasurement.stateMnwMhw,
 								"stateNswHsw": result[i].timeseries[k].currentMeasurement.stateNswHsw,
 								"gaugeZero": gaugevalue + ' ' + gaugeunit,
