@@ -1,6 +1,9 @@
 # Tableau-WDC-Watergauge
 To use this webdataconnector please follow along with the descriptions on https://tableau.github.io/webdataconnector/docs/
 You need to have a local node server running or you upload the WDC to a node server in the web.
+Till 03.01.2022 the WDC will be available through following site:
+https://www.logistikjunge.de/Tableau/watergaugeWDC.html
+
 The WDC consist of following entities:
 - water.js -> Usability for the forms
 - watergauge.css -> color etc formating for the forms
