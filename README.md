@@ -1,13 +1,17 @@
 # Tableau-WDC-Watergauge
 To use this webdataconnector please follow along with the descriptions on https://tableau.github.io/webdataconnector/docs/
 You need to have a local node server running or you upload the WDC to a node server in the web.
-
+The WDC consist of following entities:
+- water.js -> Usability for the forms
+- watergauge.css -> color etc formating for the forms
+- watergauge.js -> main coding to load data into Tableau including schema definition and getjson requests etc
+- WatergaugeWDC.html -> forms
 
 The Tableau Webdataconnector Watergauge is based on the Tableau Webdataconnector Watergaugestations. 
 - It loads master data of the watergauge stations available in Germany. 
 - It loads master and transactional data of the watergauge stations available in Germany. 
 - It loads historical data of the watergauge stations available in Germany. 
-It provides a 3 forms to filter the data which should be loaded.
+It provides 3 forms to filter the data which should be loaded.
 
 Major improvments comparing to Tableau Webdataconnector Watergaugestations:
 - Provision of a form to filter watergaugestations by waters
