@@ -15,9 +15,9 @@
 			console.log(waterObj.formid);
 
 			var cols_MD = [{
-				id: "Nr", //not included in datasource, placeholder for artificial running number 
-				dataType: tableau.dataTypeEnum.string
-			}, {
+			//	id: "Nr", //not included in datasource, placeholder for artificial running number 
+			//	dataType: tableau.dataTypeEnum.string
+			//}, {
 				id: "uuid",
 				alias: "UUID",
 				description: "Unique station ID",
@@ -79,9 +79,9 @@
 	
 		// Define column by column for watergaugestations
 			var cols_MD = [{
-				id: "Nr", //not included in datasource, placeholder for artificial running number 
-				dataType: tableau.dataTypeEnum.string
-			}, {
+			//	id: "Nr", //not included in datasource, placeholder for artificial running number 
+			//	dataType: tableau.dataTypeEnum.string
+			//}, {
 				id: "uuid",
 				alias: "UUID",
 				description: "Unique station ID",
@@ -126,12 +126,12 @@
 			}];	// Close first column variable
 	
 			var cols_TM = [{
-				id: "Nr", //not included in datasource, placeholder for artificial running number 
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: "Nr_k",
-				dataType: tableau.dataTypeEnum.string
-			}, {
+			//	id: "Nr", //not included in datasource, placeholder for artificial running number 
+			//	dataType: tableau.dataTypeEnum.string
+			//}, {
+			//	id: "Nr_k",
+			//	dataType: tableau.dataTypeEnum.string
+			//}, {
 				id: "uuid",
 				alias: "UUID",
 				description: "Unique station ID",
@@ -189,12 +189,12 @@
 	
 	
 			var cols_CM = [{
-				id: "Nr", //not included in datasource, placeholder for artificial running number 
-				dataType: tableau.dataTypeEnum.string
-			}, {
-				id: "Nr_cv",
-				dataType: tableau.dataTypeEnum.string
-			}, {
+			//	id: "Nr", //not included in datasource, placeholder for artificial running number 
+			//	dataType: tableau.dataTypeEnum.string
+			//}, {
+			//	id: "Nr_cv",
+			//	dataType: tableau.dataTypeEnum.string
+			//}, {
 				id: "uuid",
 				alias: "UUID",
 				description: "Unique station ID",
@@ -268,11 +268,15 @@
 
 			// Define column by column for watergaugestations
 			var cols_HD = [{
-				id: "Nr", //not included in datasource, placeholder for artificial running number 
-				dataType: tableau.dataTypeEnum.string
-			}, {
+			//	id: "Nr", //not included in datasource, placeholder for artificial running number 
+			//	dataType: tableau.dataTypeEnum.string
+			//}, {
 				id: "uuid",
 				alias: "station shortname",
+				dataType: tableau.dataTypeEnum.string
+			}, {
+				id: "inc_info",
+				alias: "increment info",
 				dataType: tableau.dataTypeEnum.string
 			}, {
 				id: "timestamp",
@@ -283,19 +287,22 @@
 				//aggType: avg
 			}];	
 
-			console.log('Columns definition');
+			console.log('HD Schema/Columns definition completed');
 			
-			// Define History table with predefined columns
-			var watergauge_table_HD = {
-				id: "History", //needs to be one word
-				alias: "Historical data",
-				description: "Please find here historical watergauge data - only one station at a time can be requested",
-				columns: cols_HD
-			};
+
+
+			// Define Incremental History table with predefined columns
+			var watergauge_table_HD_Inc = {
+				id: "History_Inc", //needs to be one word
+				alias: "Historical data (Load: Intial/Incremental)",
+				description: "Please find here historical watergauge data - only one station at a time can be requested. The data can be loaded as initial load and in addition to that also incremental load is possible, please refresh the extract as incremental refresh for that.",
+				columns: cols_HD,
+				incrementColumnId: "timestamp"
+			};			
 
 			console.log('Table definition');
 
-			schemaCallback([watergauge_table_HD]);
+			schemaCallback([watergauge_table_HD_Inc]);
 		}	// Closes last if statement (HD)	
 
     }; // Closes schemacallback
@@ -305,11 +312,14 @@
  // Navigate to the correct URI in order to download the desired data 
     myConnector.getData = function(table, doneCallback) 
 	{
-		
+		// var last_timestamp = parseInt(table.incrementValue || -1);
+		var last_timestamp = table.incrementValue;
+
         var waterObj = JSON.parse(tableau.connectionData),
             dateString = "waters=" + waterObj.water + "&km=" + waterObj.distance + "&radius=" + waterObj.radius,
             apiCall = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" + dateString;
-				
+			
+			console.log(last_timestamp);
 			console.log(apiCall);
 			console.log(waterObj.formid);
 			console.log(waterObj.water);
@@ -383,7 +393,7 @@
 				for (var i = 0, len = anzahl; i < len; i++) {
 				// Push the MD-data in array		       
 					tableData.push({
-						"Nr": i, //running number given by js
+						//"Nr": i, //running number given by js
 						"uuid": result[i].uuid,
 						"number": result[i].number,
 						"shortname": result[i].shortname,
@@ -405,7 +415,7 @@
 						var TM_anzahl = result[i].timeseries.length;		
 									
 							tableData.push({
-								"Nr": i, //running number given by js
+								//"Nr": i, //running number given by js
 								"uuid": result[i].uuid,
 								"number": result[i].number,
 								"shortname": result[i].shortname,
@@ -460,8 +470,8 @@
 								}	;		
 
 							tableData.push({
-								"Nr": i, //running number given by js
-								"Nr_k": k, //running number given by js
+								//"Nr": i, //running number given by js
+								//"Nr_k": k, //running number given by js
 								"uuid": result[i].uuid,
 								
 								// Timeseries data push
@@ -491,9 +501,9 @@
 							
 							for (var cv = 0, len_CV = CV_anzahl; cv < len_CV; cv++) {	
 								tableData.push({
-									"Nr": i, //running number given by js
-									"Nr_k": k, //running number given by js
-									"Nr_cv": cv,
+									//"Nr": i, //running number given by js
+									//"Nr_k": k, //running number given by js
+									//"Nr_cv": cv,
 									"uuid": result[i].uuid,
 									
 									// Characteristic data push
@@ -513,16 +523,48 @@
 			} // Close if CM
 
 		else if (waterObj.formid==='HD'){
-			for (var i = 0, len = anzahl; i < len; i++) {
-                tableData.push({
-					"Nr": i, //running number given by js
-                    "uuid": waterObj.uuid,
-					"timestamp": result[i].timestamp,
-					"waterlevel": result[i].value
-                });
-		}}
+			//Initial and incremental fork 
+
+			if (!last_timestamp){
+
+				for (var i = 0, len = anzahl; i < len; i++) {
+					tableData.push({
+						//"Nr": i, //running number given by js
+						"uuid": waterObj.uuid,
+						"inc_info": 'Initial load',
+						"timestamp": result[i].timestamp,
+						"waterlevel": result[i].value
+					});
+				}
+			}
+			else if (last_timestamp){
+
+
+				for (var i = 0, len = anzahl; i < len; i++) {
+					if (result[i].timestamp > last_timestamp){
+						tableData.push({
+							//"Nr": i, //running number given by js
+							"uuid": waterObj.uuid,
+							"inc_info": 'Increment',
+							"timestamp": result[i].timestamp,
+							"waterlevel": result[i].value
+
+						});
+					}
+				}
+			}
+
+		}
 			
-			table.appendRows(tableData);
+		var row_index = 0;
+		var size = 100;
+		while (row_index < tableData.length){
+			 table.appendRows(tableData.slice(row_index, size + row_index));
+			 row_index += size;
+			 tableau.reportProgress("GETTING ROW: " + row_index +'DATA: ' + waterObj.formid);
+		 }
+
+			
 
             doneCallback();
         });
