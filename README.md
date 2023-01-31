@@ -1,5 +1,5 @@
-# Tableau-WDC-Watergauge
-To use this webdataconnector please follow along with the descriptions on https://tableau.github.io/webdataconnector/docs/
+# Tableau-WDC2-Watergauge
+To use this webdataconnector (WDC2.0) please follow along with the descriptions on https://tableau.github.io/webdataconnector/docs/
 You need to have a local node server running or you upload the WDC to a node server in the web.
 
  WDC will be available through following site:
